@@ -25,17 +25,57 @@ tests = [ {'description': 'This test will run first.',
     'expected': [('PORTB', 0x00)],
     },
 
-    #second step is Y and should unlock the door
+    #part 2 of seq
     {'description': 'This test will run 3rd.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    #part 3 of the seq
+    {'description': 'This test will run 2nd.',
+    'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x00)],
+    },
+
+    #part 4 of seq so should unlock
+    {'description': 'This test will run 3rd.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    
+
+
+
+    #same steps but to lock
+
+    #step 1 by pushing # should remained locked
+    {'description': 'This test will run 2nd.',
+    'steps': [ {'inputs': [('PINA', 0x04)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    #part 2 of seq
+    {'description': 'This test will run 3rd.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    #part 3 of the seq
+    {'description': 'This test will run 2nd.',
     'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
     'expected': [('PORTB', 0x01)],
     },
 
-    #relocking the door
-    {'description': 'This test will run 4th.',
-    'steps': [ {'inputs': [('PINA', 0x80)], 'iterations': 1 } ],
+    #part 4 of seq so should unlock
+    {'description': 'This test will run 3rd.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
     'expected': [('PORTB', 0x00)],
     },
+
+
+    
+
 
 
     
