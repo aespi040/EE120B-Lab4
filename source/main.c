@@ -14,80 +14,77 @@
 
 
 
-//BRU(btn release unlock), BRL(btn rel. lock), STEP1 = unlock pt1, STEP2 = lock pt1
-enum States{START, LOCK, UNLOCK, BRU, BRL, STEP1, STEP2} state;
-unsigned char count; //keeps track of sequence
-unsigned char sequence[] = {4,0,2,0}; //steps shortcutted
+
+enum States{START, WAIT, ADD, SUB, RESET} state;
+unsigned char count;
 
 void Tick() {
 	switch(state) {
 		case START:
-			state = LOCK; break;
+			count = 7;
+			state = WAIT; break;
 	        default:
 			state = START; break;
 
-		case LOCK:
-			count = 0;
-			if(PINA == sequence[count]) {
-				state = BRU; //if 0x04 press then move onto next
+		case WAIT:
+			if(PINA == 1) {
+				state = ADD;
+			       if(count < 9) {
+				       count++;
+			       }
+			}
+			else if (PINA == 0x02) {
+				state = SUB;
+				if( count > 0){ count--; }
+			}
+			else if(PINA == 0x03) {
+				state = RESET;
+				count =0;
 			}
 			break;
 
-		case BRU:
-			if(PINA == 0x00) {
-				count++;
-				state = STEP1;
+		case ADD:
+			if(PINA == 0) { state = WAIT; }
+			else if(PINA == 0x02) { 
+				state = SUB;
+				if(count > 0) {
+					count--;
+				}
+			}
+			else if(PINA == 0x03) {
+				state = RESET;
+				count = 0;
+			}
+			else {}
+			break;
+		case SUB:
+			if(PINA == 0x00) { state = WAIT;}
+			else if(PINA == 0x01) {
+				state = ADD;
+				if(count < 9) {
+					count++;
+				}
+			}
+			else if(PINA == 0x03) {
+				state = RESET;
+				count = 0;
 			}
 			break;
-
-		case STEP1:
-			if(count == 0x04) { state = UNLOCK; } //seq. completed
-			else if(PINA == 0x00) { state = STEP1; } //go back to step1
-			else if(PINA == sequence[count]) { state = BRU; } 
-			else { state = LOCK; } //failed seq. so unlock
-			break;
-		case UNLOCK:
-			count = 0; //resets sequence
-			if(PINA == 0x80) { state = LOCK; } //its now locked
-			else if (PINA == sequence[count]) { 
-				state = BRL; //move onto lock sequence step1
-			}
-			break;
-
-
-
-
-		case BRL:
-			if(PINA == 0x00) {
-                                count++;
-                                state = STEP2;
-			}
-			break;
-
-                case STEP2:
-                        if(count == 0x04) { state = LOCK; } //seq. completed
-			else if(PINA == 0x80) {state = UNLOCK; }
-                        else if(PINA == 0x00) { state = STEP2; } //go back to step2
-                        else if(PINA == sequence[count]) { state = BRL; }
-                        else { state = UNLOCK; } //failed to lock so doesnt lock 
+		case RESET:
+                        if(PINA == 0x00) { state = WAIT;}
                         break;
-
 	}
 
 
 	switch(state) {
 		case START: break;
 		default: break;
-		case LOCK:
-		case BRU:
-		case STEP1:
-			 PORTB = 0x00;
-			 break;
-		case UNLOCK:
-		case BRL:
-		case STEP2: 
-			 PORTB = 0x01;
-			 break;
+		case WAIT:
+		case ADD:
+		case SUB:
+		case RESET:
+			PORTC = count;
+			break;
 	}
 }
 
@@ -102,7 +99,7 @@ int main(void) {
 
     /* Insert your solution below */
 	state = START;
-        
+	count = 0x07;
 
     while (1) {
 	    Tick(); 

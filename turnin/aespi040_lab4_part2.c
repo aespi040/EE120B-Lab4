@@ -21,6 +21,7 @@ unsigned char count;
 void Tick() {
 	switch(state) {
 		case START:
+			count = 7;
 			state = WAIT; break;
 	        default:
 			state = START; break;
@@ -31,7 +32,14 @@ void Tick() {
 			       if(count < 9) {
 				       count++;
 			       }
-			       else { count = 9; }
+			}
+			else if (PINA == 0x02) {
+				state = SUB;
+				if( count > 0){ count--; }
+			}
+			else if(PINA == 0x03) {
+				state = RESET;
+				count =0;
 			}
 			break;
 
@@ -47,7 +55,7 @@ void Tick() {
 				state = RESET;
 				count = 0;
 			}
-			else { count = 9; }
+			else {}
 			break;
 		case SUB:
 			if(PINA == 0x00) { state = WAIT;}

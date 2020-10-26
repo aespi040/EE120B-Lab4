@@ -24,25 +24,61 @@ tests = [ {'description': 'This test will run first.',
     'expected': [('PORTC', 0x08)],
     },
 
+    {'description': 'This test will run first.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTC', 0x08)],
+    },
+
     {'description': 'This test will run 3rd.',
     'steps': [ {'inputs': [('PINA', 0x01)], 'iterations': 1 } ],
     'expected': [('PORTC', 0x09)],
     },
 
-    {'description': 'This test will run 4th.',
-    'steps': [ {'inputs': [('PINA', 0x01)], 'iterations': 1 } ],
+    
+    {'description': 'This test will run first.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
     'expected': [('PORTC', 0x09)],
     },
+
+
+
+
 
     {'description': 'This test will run 5th.',
     'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
     'expected': [('PORTC', 0x08)],
     },
 
+    {'description': 'This test will run 5th.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTC', 0x08)],
+    },
+
+
+
     {'description': 'This test will run 6th.',
     'steps': [ {'inputs': [('PINA', 0x03)], 'iterations': 1 } ],
     'expected': [('PORTC', 0x00)],
     },
+
+    {'description': 'This test will run 6th.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTC', 0x00)],
+    },
+
+    {'description': 'This test will run 6th.',
+    'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
+    'expected': [('PORTC', 0x00)],
+    },
+
+
+
+
+
+
+
+
+
 
     {'description': 'This test will run 6th.',
     'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
