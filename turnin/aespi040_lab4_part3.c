@@ -15,7 +15,7 @@
 
 
 
-enum States{START, LOCK, STEP1, UNLOCK} state;
+enum States{START, LOCK, STEP1, STEP2, UNLOCK} state;
 unsigned char count;
 
 void Tick() {
@@ -30,13 +30,16 @@ void Tick() {
 				state = STEP1;
 			}
 			break;
-
 		case STEP1:
-			if(PINA == 0x02) { state = UNLOCK; }
-			else if(PINA == 0x00) { state = STEP1; }
+			if(PINA == 0x00) { state = STEP2; }
 			else if(PINA == 0x04) { state = STEP1; }
 			else { state = LOCK; }
 			break;
+		case STEP2:
+			if(PINA == 0x02) { state = UNLOCK; }
+                        else if(PINA == 0x00) { state = STEP2; }
+                        else { state = LOCK; }
+                        break;
 		case UNLOCK:
 			if(PINA == 0x80) { state = LOCK; }
 			break;
@@ -48,6 +51,7 @@ void Tick() {
 		default: break;
 		case LOCK:
 		case STEP1:
+		case STEP2:
 			 PORTB = 0x00;
 			 break;
 		case UNLOCK:

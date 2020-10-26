@@ -28,7 +28,7 @@ tests = [ {'description': 'This test will run first.',
     #second step is Y and should unlock the door
     {'description': 'This test will run 3rd.',
     'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
-    'expected': [('PORTB', 0x01)],
+    'expected': [('PORTB', 0x00)],
     },
 
     #relocking the door

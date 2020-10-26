@@ -16,74 +16,66 @@
 # altered in between executions (unless preconditions are used).
 tests = [ {'description': 'This test will run first.',
     'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x07)],
-    },
+    'expected': [('PORTB', 0x00)],
+    }, #this does nothing so it should remained locked
 
+    #step 1 by pushing # should remained locked
     {'description': 'This test will run 2nd.',
-    'steps': [ {'inputs': [('PINA', 0x01)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x08)],
+    'steps': [ {'inputs': [('PINA', 0x04)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x00)],
     },
 
-    {'description': 'This test will run first.',
-    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x08)],
-    },
-
+    #part 2 of seq
     {'description': 'This test will run 3rd.',
-    'steps': [ {'inputs': [('PINA', 0x01)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x09)],
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    #part 3 of the seq
+    {'description': 'This test will run 2nd.',
+    'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x00)],
+    },
+
+    #part 4 of seq so should unlock
+    {'description': 'This test will run 3rd.',
+    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
     },
 
     
-    {'description': 'This test will run first.',
+
+
+
+    #same steps but to lock
+
+    #step 1 by pushing # should remained locked
+    {'description': 'This test will run 2nd.',
+    'steps': [ {'inputs': [('PINA', 0x04)], 'iterations': 1 } ],
+    'expected': [('PORTB', 0x01)],
+    },
+
+    #part 2 of seq
+    {'description': 'This test will run 3rd.',
     'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x09)],
+    'expected': [('PORTB', 0x01)],
     },
 
-
-
-
-
-    {'description': 'This test will run 5th.',
+    #part 3 of the seq
+    {'description': 'This test will run 2nd.',
     'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x08)],
+    'expected': [('PORTB', 0x01)],
     },
 
-    {'description': 'This test will run 5th.',
+    #part 4 of seq so should unlock
+    {'description': 'This test will run 3rd.',
     'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x08)],
+    'expected': [('PORTB', 0x00)],
     },
 
 
+    
 
-    {'description': 'This test will run 6th.',
-    'steps': [ {'inputs': [('PINA', 0x03)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x00)],
-    },
-
-    {'description': 'This test will run 6th.',
-    'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x00)],
-    },
-
-    {'description': 'This test will run 6th.',
-    'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x00)],
-    },
-
-
-
-
-
-
-
-
-
-
-    {'description': 'This test will run 6th.',
-    'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 1 } ],
-    'expected': [('PORTC', 0x00)],
-    },
 
 
     

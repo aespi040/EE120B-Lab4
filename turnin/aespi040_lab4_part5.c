@@ -17,7 +17,7 @@
 //BRU(btn release unlock), BRL(btn rel. lock), STEP1 = unlock pt1, STEP2 = lock pt1
 enum States{START, LOCK, UNLOCK, BRU, BRL, STEP1, STEP2} state;
 unsigned char count; //keeps track of sequence
-unsigned char sequence[] = {4,0,2,0}; //steps shortcutted
+unsigned char sequence[] = {4,1,2,1}; //steps shortcutted
 
 void Tick() {
 	switch(state) {
@@ -38,10 +38,12 @@ void Tick() {
 				count++;
 				state = STEP1;
 			}
+			else if(PINA == sequence[count]) { state = BRU; }
+			else {state = LOCK;}
 			break;
 
 		case STEP1:
-			if(count == 0x04) { state = UNLOCK; } //seq. completed
+			if(count == 4) { state = UNLOCK; } //seq. completed
 			else if(PINA == 0x00) { state = STEP1; } //go back to step1
 			else if(PINA == sequence[count]) { state = BRU; } 
 			else { state = LOCK; } //failed seq. so unlock
@@ -62,11 +64,13 @@ void Tick() {
                                 count++;
                                 state = STEP2;
 			}
+			else if(PINA == sequence[count]) { state = BRL; }
+                        else {state = UNLOCK;}
 			break;
 
                 case STEP2:
-                        if(count == 0x04) { state = LOCK; } //seq. completed
-			else if(PINA == 0x80) {state = UNLOCK; }
+                        if(count == 4) { state = LOCK; } //seq. completed
+			else if(PINA == 0x80) {state = LOCK; }
                         else if(PINA == 0x00) { state = STEP2; } //go back to step2
                         else if(PINA == sequence[count]) { state = BRL; }
                         else { state = UNLOCK; } //failed to lock so doesnt lock 
