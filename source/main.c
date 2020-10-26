@@ -69,9 +69,21 @@ void Tick() {
 				state = RESET;
 				count = 0;
 			}
+			else {}
 			break;
 		case RESET:
                         if(PINA == 0x00) { state = WAIT;}
+			else if(PINA == 0x01) {
+                                state = ADD;
+                                if(count < 9) {
+                                        count++;
+                                }
+                        }
+                        else if(PINA == 0x02) {
+                                state = SUB;
+                                if(count > 0) {count--;}
+                        }
+                        else {}
                         break;
 	}
 
@@ -99,7 +111,6 @@ int main(void) {
 
     /* Insert your solution below */
 	state = START;
-	count = 0x07;
 
     while (1) {
 	    Tick(); 
